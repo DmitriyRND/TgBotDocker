@@ -1,0 +1,31 @@
+package org.example.tgbotdocker.model.pars;
+
+
+import lombok.Data;
+
+@Data
+public class News {
+    private String href;
+    private String text;
+
+    public News(String href, String text) {
+        this.href = href;
+        this.text = text;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+}
