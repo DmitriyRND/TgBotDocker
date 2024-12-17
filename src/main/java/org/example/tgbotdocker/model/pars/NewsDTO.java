@@ -4,13 +4,17 @@ package org.example.tgbotdocker.model.pars;
 import lombok.Data;
 
 @Data
-public class News {
+
+public class NewsDTO {
     private String href;
     private String text;
 
-    public News(String href, String text) {
+    public NewsDTO(String href, String text) {
         this.href = href;
         this.text = text;
+    }
+
+    public NewsDTO() {
     }
 
     public String getHref() {

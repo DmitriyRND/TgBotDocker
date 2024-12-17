@@ -1,12 +1,15 @@
-package org.example.tgbotdocker;
+package org.example.tgbotdocker.config;
 
+import org.example.tgbotdocker.bot.Bot;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
+@EnableScheduling
 public class SpringConfig {
 
 
