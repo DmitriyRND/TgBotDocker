@@ -13,13 +13,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class Bot extends TelegramLongPollingBot {
 
     private JsoupService jsoupService;
     private NewsService newsService;
+    private  Set<Long> chatIds = new HashSet<>();
 
     @Value("${bot.name}")
     private String botName;
@@ -35,6 +38,7 @@ public class Bot extends TelegramLongPollingBot {
 
     }
 
+
     @Override
     public void onUpdateReceived(Update update) {
         if (!update.hasMessage() && update.getMessage().hasText()) {
@@ -43,6 +47,7 @@ public class Bot extends TelegramLongPollingBot {
 
         Long chatId = update.getMessage().getChatId();
         String messageText = update.getMessage().getText();
+        chatIds.add(chatId);
 
         if (messageText.equalsIgnoreCase("news")) {
             List<NewsEntity> news = newsService.getAllNews();
@@ -55,6 +60,8 @@ public class Bot extends TelegramLongPollingBot {
                         .append("\n\n");
             }
 
+
+
             String responseText = sb.toString();
             sendLongMessage(chatId, responseText);
         } else {
@@ -62,6 +69,11 @@ public class Bot extends TelegramLongPollingBot {
         }
 
     }
+
+    public Set<Long> getChatIds() {
+        return chatIds;
+    }
+
 
     private List<String> splitMessage(String message, int maxLength) {
         List<String> parts = new ArrayList<>();
@@ -81,15 +93,11 @@ public class Bot extends TelegramLongPollingBot {
             sendTextMessage(chatId, text);
         }
     }
-    private void sendTextMessage(Long chatId, String text) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId.toString());
-        sendMessage.setText(text);
-
+    public void sendTextMessage(Long chatId, String text) {
         try {
-            execute(sendMessage); // Отправка сообщения через Telegram API
+            execute(new SendMessage(chatId.toString(), text));
         } catch (TelegramApiException e) {
-            throw new RuntimeException("Ошибка при отправке сообщения", e);
+            System.err.println("Ошибка отправки сообщения: " + e.getMessage());
         }
     }
 

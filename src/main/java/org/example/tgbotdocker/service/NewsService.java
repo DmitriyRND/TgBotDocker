@@ -26,6 +26,10 @@ public class NewsService {
         return newsRepository.findAll();
     }
 
+    public NewsEntity getNewsById(Long id) {
+        return newsRepository.findById(id).orElse(null);
+    }
+
 
     public void deleteAllNewsList(){
         newsRepository.deleteAll();
