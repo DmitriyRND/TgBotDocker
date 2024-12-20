@@ -75,6 +75,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
+
     private List<String> splitMessage(String message, int maxLength) {
         List<String> parts = new ArrayList<>();
         int length = message.length();
